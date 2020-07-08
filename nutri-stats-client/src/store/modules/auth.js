@@ -1,5 +1,5 @@
 import axiosInstance from '../../axios-config';
-
+import store from '../store';
 const state = {
   token: '',
   userId: null,
@@ -31,11 +31,16 @@ const actions = {
   },
 
   async login({ commit }, authData) {
-    const response = await axiosInstance.post('/auth/sign-in', authData);
-    const { data } = response;
-    localStorage.setItem('token', data.token);
-    commit('SET_TOKEN', data.token);
-    commit('SET_USER', data);
+    try {
+      const response = await axiosInstance.post('/auth/sign-in', authData);
+      const { data } = response;
+      localStorage.setItem('token', data.token);
+      commit('SET_TOKEN', data.token);
+      commit('SET_USER', data);
+    } catch (error) {
+      const errorMsgs = error.response.data.message;
+      commit('SET_ALERTS', errorMsgs);
+    }
   },
 
   logout({ commit }) {

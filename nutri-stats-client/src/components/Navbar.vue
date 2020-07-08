@@ -27,7 +27,7 @@
     <div class="navbar-collapse collapse order-2 order-md-2">
     <ul class=" navbar-nav ml-auto text-center">
         <li v-if="isAuthenticated" class="nav-item" @click="handleLogout">
-            <router-link class="nav-link"><i class="fas fa-user"></i><span>  Logout</span></router-link>
+            <router-link to="/login" class="nav-link"><i class="fas fa-user"></i><span>  Logout</span></router-link>
         </li>
     </ul>
     </div>

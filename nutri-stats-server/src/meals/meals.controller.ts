@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { MealsService } from './meals.service';
 import { CreateMealDto } from 'src/meals/dto/create-meal.dto';
+import { UpdateMealDto } from 'src/meals/dto/update-meal.dto';
 import { MealsFilterDto } from 'src/meals/dto/meals-filter.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Meal } from './meal.entity';
@@ -29,10 +30,10 @@ export class MealsController {
     return this.mealsService.getMeals(User);
   }
 
-  //   @Get('/:id')
-  //   getMealById(@Param('id') id: string): Meal {
-  //     return this.mealsService.getMealById(id);
-  //   }
+  @Get('/:id')
+  getMealById(@Param('id') id: number, @GetUser() user: User): Promise<Meal> {
+    return this.mealsService.getMealById(id, user);
+  }
 
   @Post()
   @UsePipes(ValidationPipe)
@@ -48,11 +49,14 @@ export class MealsController {
   //     this.mealsService.deleteMeal(id);
   //   }
 
-  //   @Patch('/:id/status')
+  //   @Patch('edit/:id')
   //   updateTaskStatus(
-  //     @Param('id') id: string,
-  //     @Body('status') status: MealStatus,
+  //     @GetUser()
+  //     user: User,
+  //     @Param('id')
+  //     id: number,
+  //     @Body() updateMealDto: UpdateMealDto,
   //   ): Meal {
-  //     return this.mealsService.updateMealStatus(id, status);
+  //     return this.mealsService.updateMealStatus(id, updateMealDto, user);
   //   }
 }
