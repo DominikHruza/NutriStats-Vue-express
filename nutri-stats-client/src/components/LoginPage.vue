@@ -13,7 +13,7 @@
         <button @click="onSubmit">login</button>
         <p class="message">
           Not registered?
-          <router-link to="/sign-up">Create an account</router-link>
+          <router-link :to="{name: 'SignUp'}">Create an account</router-link>
         </p>
       </form>
     </div>

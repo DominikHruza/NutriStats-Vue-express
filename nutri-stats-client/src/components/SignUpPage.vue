@@ -33,7 +33,7 @@
 
         <button @click="onSubmit">Sign Up</button>
         <p class="message">
-          Already have an account? <router-link to="/login">Login</router-link>
+          Already have an account? <router-link :to="{name: 'Login'}">Login</router-link>
         </p>
       </form>
     </div>
@@ -41,7 +41,9 @@
 </template>
 
 <script>
+
 import axiosInstance from '../axios-config';
+import {mapActions} from 'vuex'
 import {
   required,
   maxLength,
@@ -60,6 +62,7 @@ export default {
   },
 
   methods: {
+   ...mapActions(['signUp']),
     async onSubmit(e) {
       e.preventDefault();
 
@@ -68,7 +71,9 @@ export default {
         password: this.password,
       };
 
-      this.$store.dispatch('signIn', formData);
+      this.$store.dispatch('signUp', formData);
+      this.$router.push({name: 'Dashboard'});
+      
     },
   },
 

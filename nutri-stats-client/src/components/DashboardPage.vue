@@ -1,6 +1,6 @@
 <template>
     <div>
-        <date-paginator></date-paginator>
+        <date-paginator :date="getDate"></date-paginator>
         <meal-component></meal-component>
     </div>
 </template>
@@ -9,7 +9,7 @@
 <script>
 import MealComponent from './MealComponent';
 import DatePaginator from './DatePaginator';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
   components: {
     MealComponent,
@@ -17,6 +17,10 @@ export default {
   },
   methods: {
     ...mapActions(['fetchMealsData', 'setTodayDate']),
+  },
+
+  computed: {
+    ...mapGetters(['getDate'])
   },
 
   created() {
