@@ -1,5 +1,11 @@
 <template>
   <div class="login-page">
+    <app-alert-box
+      v-for="(alert, index) in getAlerts"
+      :alertMsg="alert"
+      color="alert-danger"
+      :key="index"
+    ></app-alert-box>
     <div class="form">
       <form class="login-form">
         <input type="text" placeholder="username" v-model="username" />
@@ -15,6 +21,9 @@
 </template>
 
 <script>
+import AlertBox from './AlertBox';
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   data() {
     return {
@@ -24,6 +33,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(['removeAlert']),
     async onSubmit(e) {
       e.preventDefault();
 
@@ -40,9 +50,22 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['getAlerts']),
     isAuthenticated() {
       return this.$store.getters.isAuthenticated;
     },
+  },
+
+  watch: {
+    getAlerts(val) {
+      setTimeout(() => {
+        console.log(val);
+        if (val.length !== 0) this.removeAlert();
+      }, 2000);
+    },
+  },
+  components: {
+    appAlertBox: AlertBox,
   },
 };
 </script>

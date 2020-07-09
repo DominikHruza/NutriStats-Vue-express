@@ -23,10 +23,11 @@ export class AuthService {
     const userData = await this.userRepository.validateUserPassword(
       authCredentials,
     );
-    const { username, userId } = userData;
+    console.log(userData);
     if (!userData) {
       throw new UnauthorizedException('Invalid credentials');
     }
+    const { username, userId } = userData;
 
     const payload: JwtPayload = { username };
     const token = await this.jwtService.sign(payload);

@@ -5,6 +5,7 @@ import { Meal } from './meal.entity';
 import { MealRepository } from './meal.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/user.entity';
+import { UpdateMealDto } from './dto/update-meal.dto';
 
 @Injectable()
 export class MealsService {
@@ -16,13 +17,17 @@ export class MealsService {
   getMeals(user: User): Promise<Meal[]> {
     return this.mealRepository.getMeals(user);
   }
-  //   getMealById(id: string): Meal {
-  //     const found = this.meals.find(meal => meal.id === id);
-  //     if (!found) {
-  //       throw new NotFoundException(`Meal with ID "${id}" not found!`);
-  //     }
-  //     return found;
-  //   }
+  async getMealById(id: number, user: User): Promise<Meal> {
+    const found = await this.mealRepository.findOne({
+      where: { id, userId: user.id },
+    });
+    console.log(found);
+    if (!found) {
+      throw new NotFoundException(`Meal with ID "${id}" not found!`);
+    }
+    return found;
+  }
+
   createMeal(createMealDto: CreateMealDto, user: User): Promise<Meal> {
     return this.mealRepository.createMeal(createMealDto, user);
   }
@@ -30,8 +35,12 @@ export class MealsService {
   //     const found = this.getMealById(id);
   //     this.meals.filter(meal => meal.id !== found.id);
   //   }
-  //   updateMealStatus(id: string, status: MealStatus) {
-  //     const meal = this.getMealById(id);
+  //   updateMealStatus(
+  //     id: number,
+  //     updateMealDto: UpdateMealDto,
+  //     user: User,
+  //   ): Promise<Meal> {
+  //     const meal = this.getMealById(id, user);
   //     meal.status = status;
   //     return meal;
   //   }
