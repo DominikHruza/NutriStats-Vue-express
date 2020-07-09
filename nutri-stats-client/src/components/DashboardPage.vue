@@ -1,8 +1,19 @@
 <template>
-    <div>
-        <date-paginator :date="getDate"></date-paginator>
-        <meal-component></meal-component>
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-sm-3 offset-sm-5"> 
+            <date-paginator :date="getDate"></date-paginator>  
+        </div>
     </div>
+    <div class="row">
+        <div class="col-sm-6 offset-sm-3"> 
+            <meal-component mealType="Breakfast"></meal-component>
+            <meal-component mealType="Lunch"></meal-component>
+            <meal-component mealType="Dinner"></meal-component>
+            <meal-component mealType="Snacks"></meal-component>
+        </div>   
+    </div>   
+</div>
 </template>
 
 
@@ -20,7 +31,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['getDate'])
+    ...mapGetters(['getDate']),
   },
 
   created() {
@@ -29,3 +40,7 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+@import '../shared-styles.scss';
+</style>

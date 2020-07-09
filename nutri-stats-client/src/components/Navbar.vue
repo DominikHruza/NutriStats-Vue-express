@@ -1,5 +1,5 @@
 <template>
- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+ <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <a class="navbar-brand" href="#">NutriStats</a>
     <button
       class="navbar-toggler"
@@ -48,4 +48,8 @@ export default {
 </script>
 
 <style scoped>
+.navbar-custom {
+  background-color: #0070bf !important;
+  color: white !important;
+}
 </style>

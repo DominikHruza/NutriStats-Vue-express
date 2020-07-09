@@ -10,7 +10,7 @@ Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(Vuelidate);
 
-const router = new VueRouter({
+export const router = new VueRouter({
   routes,
   mode: 'history',
 });

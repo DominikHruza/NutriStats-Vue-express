@@ -1,17 +1,16 @@
 <template>
 <div>
-    <h3>Meal Name</h3>
     <table class="table">
-    <thead>
+    <thead class="meal-table-head">
         <tr>
-        <th scope="col"></th>
+        <th scope="col">{{mealType}}</th>
         <th scope="col">Carbs</th>
         <th scope="col">Fats</th>
         <th scope="col">Protein</th>
         <th scope="col">Total kcal</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="meal-table-body">
         <tr>
         <th scope="row">1</th>
         <td>Mark</td>
@@ -37,5 +36,15 @@
 
 
 <script>
-export default {};
+export default {
+  props: ['mealType'],
+};
 </script>
+
+<style scoped>
+@import '../shared-styles.scss';
+.meal-table-head {
+  background-color: #0070bf;
+  color: #ffff;
+}
+</style>

@@ -1,5 +1,7 @@
 import axiosInstance from '../../axios-config';
-import store from '../store';
+
+import { router } from '../../main';
+
 const state = {
   token: '',
   userId: null,
@@ -32,9 +34,19 @@ const actions = {
 
   async login({ commit }, authData) {
     try {
+      //api call
       const response = await axiosInstance.post('/auth/sign-in', authData);
       const { data } = response;
+
+      //set token and exp date to local storage
+      const now = new Date();
+      const expirationDate = new Date(now.getTime() + data.expiresIn * 1000);
       localStorage.setItem('token', data.token);
+      localStorage.setItem('expiresIn', expirationDate);
+      localStorage.setItem('userId', data.userId);
+      localStorage.setItem('username', data.username);
+
+      //commit mutations
       commit('SET_TOKEN', data.token);
       commit('SET_USER', data);
     } catch (error) {
@@ -44,7 +56,30 @@ const actions = {
   },
 
   logout({ commit }) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiresIn');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
     commit('CLEAR_AUTH');
+  },
+
+  checkAuth({ commit }) {
+    const token = localStorage.getItem('token');
+    const expiresIn = localStorage.getItem('expiresIn');
+    const userId = localStorage.getItem('userId');
+    const username = localStorage.getItem('username');
+    const now = new Date();
+
+    if (!token && now >= expiresIn) {
+      console.log(router);
+      commit('CLEAR_AUTH');
+      router.push({
+        name: 'Login',
+      });
+    } else {
+      commit('SET_TOKEN', token);
+      commit('SET_USER', { userId, username });
+    }
   },
 };
 

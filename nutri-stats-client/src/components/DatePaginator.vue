@@ -21,14 +21,13 @@
 
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex';
 export default {
-    props: ['date'],
+  props: ['date'],
 
-
-    methods: {
-        ...mapActions(['incrementSelectedDate', 'decrementSelectedDate'])
-    }
+  methods: {
+    ...mapActions(['incrementSelectedDate', 'decrementSelectedDate']),
+  },
 };
 </script>
 
