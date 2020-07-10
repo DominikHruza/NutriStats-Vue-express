@@ -1,5 +1,5 @@
 <template>
- <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <a class="navbar-brand" href="#">NutriStats</a>
     <button
       class="navbar-toggler"
@@ -15,35 +15,39 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav mr-auto">
         <li v-if="isAuthenticated" class="nav-item active">
-          <router-link :to="{name: 'Dashboard'}" class="nav-link" href="#"
+          <router-link :to="{ name: 'Dashboard' }" class="nav-link" href="#"
             >Dashboard <span class="sr-only">(current)</span></router-link
           >
         </li>
         <li v-if="isAuthenticated" class="nav-item">
-          <router-link :to="{name: 'SavedMeals'}" class="nav-link" href="#">Saved Meals</router-link>
+          <router-link :to="{ name: 'SavedMeals' }" class="nav-link" href="#"
+            >Saved Meals</router-link
+          >
         </li>
       </ul>
     </div>
     <div class="navbar-collapse collapse order-2 order-md-2">
-    <ul class=" navbar-nav ml-auto text-center">
+      <ul class=" navbar-nav ml-auto text-center">
         <li v-if="isAuthenticated" class="nav-item" @click="handleLogout">
-            <router-link :to="{name: 'Login'}" class="nav-link"><i class="fas fa-user"></i><span>  Logout</span></router-link>
+          <router-link :to="{ name: 'Login' }" class="nav-link"
+            ><i class="fas fa-user"></i><span> Logout</span></router-link
+          >
         </li>
-    </ul>
+      </ul>
     </div>
   </nav>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 export default {
   methods: {
     handleLogout() {
-      this.$store.dispatch('logout');
-      this.$router.replace('/login');
+      console.log(this.$router);
+      this.$store.dispatch("logout");
     },
   },
-  computed: mapGetters(['isAuthenticated']),
+  computed: mapGetters(["isAuthenticated"]),
 };
 </script>
 
