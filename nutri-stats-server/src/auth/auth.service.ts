@@ -19,7 +19,12 @@ export class AuthService {
 
   async signIn(
     authCredentials: authCredentialsDto,
-  ): Promise<{ userId: number; username: string; token: string }> {
+  ): Promise<{
+    userId: number;
+    username: string;
+    token: string;
+    expiresIn: number;
+  }> {
     const userData = await this.userRepository.validateUserPassword(
       authCredentials,
     );
@@ -32,6 +37,6 @@ export class AuthService {
     const payload: JwtPayload = { username };
     const token = await this.jwtService.sign(payload);
 
-    return { userId, username, token };
+    return { userId, username, token, expiresIn: 3600 };
   }
 }
