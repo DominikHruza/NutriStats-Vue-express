@@ -1,50 +1,75 @@
 <template>
-<div>
+  <div>
     <table class="table">
-    <thead class="meal-table-head">
+      <thead class="meal-table-head">
         <tr>
-        <th scope="col">{{mealType}}</th>
-        <th scope="col">Carbs</th>
-        <th scope="col">Fats</th>
-        <th scope="col">Protein</th>
-        <th scope="col">Total kcal</th>
+          <th scope="col">{{mealType}}</th>
+          <th scope="col">Carbs</th>
+          <th scope="col">Fats</th>
+          <th scope="col">Protein</th>
+          <th scope="col">Calories</th>
+          <th scope="col">
+            <button type="button" class="btn add-btn">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+          </th>
         </tr>
-    </thead>
-    <tbody class="meal-table-body">
+      </thead>
+      <tbody class="meal-table-body">
         <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
         </tr>
         <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
+          <th scope="row">2</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
         </tr>
         <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
+          <th scope="row">3</th>
+          <td>Larry</td>
+          <td>the Bird</td>
+          <td>@twitter</td>
         </tr>
-    </tbody>
+      </tbody>
     </table>
-</div>
+  </div>
 </template>
 
 
 <script>
 export default {
-  props: ['mealType'],
+  props: ["mealType"]
 };
 </script>
 
 <style scoped>
-@import '../shared-styles.scss';
+@import "../shared-styles.scss";
 .meal-table-head {
   background-color: #0070bf;
   color: #ffff;
+}
+.add-btn {
+  background-color: #44c767;
+  border-radius: 28px;
+  border: 1px solid #18ab29;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 17px;
+  padding: 4px 9px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #2f6627;
+}
+.add-btn:hover {
+  background-color: #5cbf2a;
+}
+.add-btn:active {
+  position: relative;
+  top: 1px;
 }
 </style>

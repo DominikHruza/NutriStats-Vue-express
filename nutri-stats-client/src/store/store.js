@@ -1,12 +1,18 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import auth from './modules/auth';
-import dashboard from './modules/dashboard';
-import date from './modules/date';
+import Vue from "vue";
+import Vuex from "vuex";
+import auth from "./modules/auth";
+import dashboard from "./modules/dashboard";
+import date from "./modules/date";
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
+  plugins: [
+    createPersistedState({
+      paths: ["auth"],
+    }),
+  ],
   state: {
     alerts: [],
   },
@@ -27,7 +33,7 @@ export const store = new Vuex.Store({
 
   actions: {
     removeAlert({ commit }) {
-      commit('REMOVE_ALERT');
+      commit("REMOVE_ALERT");
     },
   },
 

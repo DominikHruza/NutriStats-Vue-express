@@ -38,7 +38,12 @@ export class AuthService {
       username,
     };
     const token = await this.jwtService.sign(payload);
+<<<<<<< HEAD
     const expiresIn = 3600;
     return { userId, username, token, expiresIn };
+=======
+
+    return { userId, username, token, expiresIn: 3600 };
+>>>>>>> b457f3579f7d7f2491806849c7aff9d684945f05
   }
 }
