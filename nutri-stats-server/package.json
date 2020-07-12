@@ -75,5 +75,6 @@
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "proxy": "https://api.edamam.com/"
 }

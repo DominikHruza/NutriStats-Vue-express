@@ -9,7 +9,7 @@
           <th scope="col">Protein</th>
           <th scope="col">Calories</th>
           <th scope="col">
-            <button type="button" class="btn add-btn">
+            <button type="button" class="btn add-btn" data-toggle="modal" data-target="#exampleModal">
               <i class="fa fa-plus" aria-hidden="true"></i>
             </button>
           </th>
@@ -42,12 +42,12 @@
 
 <script>
 export default {
-  props: ["mealType"]
+  props: ['mealType'],
 };
 </script>
 
 <style scoped>
-@import "../shared-styles.scss";
+@import '../shared-styles.scss';
 .meal-table-head {
   background-color: #0070bf;
   color: #ffff;
