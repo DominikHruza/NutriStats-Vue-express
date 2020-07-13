@@ -1,6 +1,19 @@
 import axiosInstance from '../../axios-config';
 const state = {
-  meals: [],
+  meals: {
+    breakfast: {
+      items: [],
+    },
+    lunch: {
+      items: [],
+    },
+    dinner: {
+      items: [],
+    },
+    snacks: {
+      items: [],
+    },
+  },
 };
 
 const mutations = {

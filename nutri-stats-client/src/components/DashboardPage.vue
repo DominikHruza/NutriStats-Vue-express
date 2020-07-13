@@ -7,10 +7,10 @@
     </div>
     <div class="row">
       <div class="col-md-6 offset-md-3">
-        <meal-component mealType="Breakfast"></meal-component>
-        <meal-component mealType="Lunch"></meal-component>
-        <meal-component mealType="Dinner"></meal-component>
-        <meal-component mealType="Snacks"></meal-component>
+        <meal-component mealType="breakfast"></meal-component>
+        <meal-component mealType="lunch"></meal-component>
+        <meal-component mealType="dinner"></meal-component>
+        <meal-component mealType="snacks"></meal-component>
       </div>
       <add-food-modal></add-food-modal>
     </div>
@@ -23,6 +23,7 @@ import MealComponent from './MealComponent';
 import DatePaginator from './DatePaginator';
 import AddFoodModal from './AddFoodModal';
 import { mapActions, mapGetters } from 'vuex';
+import axios from 'axios';
 export default {
   components: {
     MealComponent,

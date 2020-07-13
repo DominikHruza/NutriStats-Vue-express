@@ -14,8 +14,8 @@ export class MealsService {
     private mealRepository: MealRepository,
   ) {}
 
-  getMeals(user: User): Promise<Meal[]> {
-    return this.mealRepository.getMeals(user);
+  getMeals(user: User, date: string): Promise<Meal[]> {
+    return this.mealRepository.getMeals(user, date);
   }
   async getMealById(id: number, user: User): Promise<Meal> {
     const found = await this.mealRepository.findOne({

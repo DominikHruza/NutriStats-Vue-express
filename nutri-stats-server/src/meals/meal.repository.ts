@@ -5,10 +5,13 @@ import { User } from 'src/auth/user.entity';
 
 @EntityRepository(Meal)
 export class MealRepository extends Repository<Meal> {
-  async getMeals(user: User): Promise<Meal[]> {
+  async getMeals(user: User, date: string): Promise<Meal[]> {
     const { id } = user;
     const query = this.createQueryBuilder('meal');
-    query.where('meal.userId = :userId', { userId: id });
+    query.where('meal.userId = :userId and meal.createdAt = :date', {
+      userId: id,
+      date,
+    });
 
     const meals = await query.getMany();
 

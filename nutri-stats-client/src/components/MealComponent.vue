@@ -9,8 +9,8 @@
           <th scope="col">Protein</th>
           <th scope="col">Calories</th>
           <th scope="col">
-            <button type="button" class="btn add-btn" data-toggle="modal" data-target="#exampleModal">
-              <i class="fa fa-plus" aria-hidden="true"></i>
+            <button @click="setMealTypeModal" type="button" class="btn add-btn" data-toggle="modal" data-target="#exampleModal" :data-mealType="mealType">
+              <i class="fa fa-plus" aria-hidden="true" :data-mealType="mealType"></i>
             </button>
           </th>
         </tr>
@@ -29,7 +29,7 @@
           <td>@fat</td>
         </tr>
         <tr>
-          <th scope="row">3</th>
+          <th scope="row">Totals</th>
           <td>Larry</td>
           <td>the Bird</td>
           <td>@twitter</td>
@@ -43,6 +43,14 @@
 <script>
 export default {
   props: ['mealType'],
+  methods: {
+    setMealTypeModal(e) {
+      e.preventDefault();
+      const modalType = e.target.getAttribute('data-mealType');
+      console.log(e.target);
+      this.$store.dispatch('setModalType', modalType);
+    },
+  },
 };
 </script>
 

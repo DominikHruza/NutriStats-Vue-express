@@ -26,8 +26,11 @@ export class MealsController {
   constructor(private mealsService: MealsService) {}
 
   @Get()
-  getMeals(@GetUser() User: User): Promise<Meal[]> {
-    return this.mealsService.getMeals(User);
+  getMeals(
+    @GetUser() User: User,
+    @Param('dateCreated') dateCreated: string,
+  ): Promise<Meal[]> {
+    return this.mealsService.getMeals(User, dateCreated);
   }
 
   @Get('/:id')

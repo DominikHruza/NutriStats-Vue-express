@@ -36,62 +36,11 @@
           </div>
           <hr />
           <ul class="list-group">
-            <li
-              class="list-group-item"
-              v-for="(result, idx) in searchResults"
-              :key="idx"
-            >
-              <div class="row">
-                <span class="col-sm-4 my-auto">
-                  <img
-                    class="food-img  rounded-circle"
-                    :src="result.food.image"
-                    alt="Food img"
-                  />
-                </span>
-                <span class="food-name col-sm-4 my-auto">{{
-                  result.food.label.toUpperCase()
-                }}</span>
-              </div>
-              <div class="row">
-                <table class="table table-borderless col-4 offset-5 m-0 p-1">
-                  <thead>
-                    <tr>
-                      <th scope="col">Carbs</th>
-                      <th scope="col">Protein</th>
-                      <th scope="col">Fats</th>
-                      <th scope="col">Calories</th>
-                      <th scope="col">(100g)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{{ result.food.nutrients.CHOCDF }}</td>
-                      <td>{{ result.food.nutrients.PROCNT }}</td>
-                      <td>{{ result.food.nutrients.FAT }}</td>
-                      <td>{{ result.food.nutrients.ENERC_KCAL }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <form class="form-inline">
-                  <input
-                    class="form-control mr-sm-2"
-                    type="search"
-                    placeholder="Portion Size(grams)"
-                    aria-label="Search"
-                  />
-                  <button
-                    type="button"
-                    class="btn add-btn m-2"
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                  >
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                  </button>
-                </form>
-              </div>
-            </li>
+            <food-list-item 
+                v-for="(result, idx) in searchResults" :key="idx" 
+                :foodItemData="result" 
+                @addClicked="addFoodToMeal">
+            </food-list-item>
           </ul>
         </div>
         <div class="modal-footer">
@@ -106,23 +55,30 @@
 </template>
 
 <script>
+import FoodListItem from './FoodListItem';
 import axios from 'axios';
 export default {
+  components: {
+    foodListItem: FoodListItem,
+  },
   data() {
     return {
       searchTerm: '',
       addedItem: null,
       searchResults: [],
+      inputQty: null,
+      foodId: null,
     };
   },
 
   methods: {
     async searchFood(e) {
       e.preventDefault();
-      console.log('uso');
       try {
         const result = await axios.get(
-          `https://api.edamam.com/api/food-database/parser?ingr=${this.searchTerm}&category=generic-foods&app_id=a94e3122&app_key=dbd53702847dea2cfaba020bf85a225d`
+          `https://api.edamam.com/api/food-database/parser?ingr=${
+            this.searchTerm
+          }&category=generic-foods&app_id=a94e3122&app_key=dbd53702847dea2cfaba020bf85a225d`
         );
         this.searchResults = result.data.hints;
         console.log(this.searchResults);
@@ -130,18 +86,34 @@ export default {
         console.log(error);
       }
     },
+
+    async addFoodToMeal(event) {
+      const { qty, foodId } = event;
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      const body = {
+        ingredients: [
+          {
+            quantity: parseInt(qty),
+            measureURI:
+              'http://www.edamam.com/ontologies/edamam.owl#Measure_gram',
+            foodId: `${foodId}`,
+          },
+        ],
+      };
+      const result = await axios.post(
+        `https://api.edamam.com/api/food-database/v2/nutrients?app_id=a94e3122&app_key=dbd53702847dea2cfaba020bf85a225d`,
+        JSON.stringify(body),
+        config
+      );
+      console.log(result);
+    },
   },
 };
 </script>
 
 <style scoped>
-@import '../shared-styles.scss';
-.food-img {
-  width: 80px;
-  height: 80px;
-}
-
-.food-name {
-  font-weight: bold;
-}
 </style>
