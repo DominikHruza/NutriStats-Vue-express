@@ -14,7 +14,7 @@ export class MealRepository extends Repository<Meal> {
     });
 
     const meals = await query.getMany();
-
+    console.log('meals', meals);
     return meals;
   }
 

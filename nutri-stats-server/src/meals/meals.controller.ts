@@ -25,10 +25,10 @@ import { User } from 'src/auth/user.entity';
 export class MealsController {
   constructor(private mealsService: MealsService) {}
 
-  @Get()
+  @Post()
   getMeals(
     @GetUser() User: User,
-    @Param('dateCreated') dateCreated: string,
+    @Body('date') dateCreated: string,
   ): Promise<Meal[]> {
     return this.mealsService.getMeals(User, dateCreated);
   }
@@ -38,7 +38,7 @@ export class MealsController {
     return this.mealsService.getMealById(id, user);
   }
 
-  @Post()
+  @Post('/create')
   @UsePipes(ValidationPipe)
   createMeal(
     @Body() createMealDto: CreateMealDto,

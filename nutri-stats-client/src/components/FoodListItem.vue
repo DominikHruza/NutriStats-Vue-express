@@ -47,12 +47,14 @@
                 <button
                 @click="addItemClicked"
                 class="btn add-btn m-2"
-                data-mealType = ""
+                :data-itemName = "foodItemData.food.label"
                 data-toggle="modal"
                 data-target="#exampleModal"
                 :data-itemId = "foodItemData.food.foodId"
                 >
-                <i class="fa fa-plus" aria-hidden="true"></i>
+                <i class="fa fa-plus" aria-hidden="true" 
+                :data-itemName = "foodItemData.food.label" 
+                :data-itemId = "foodItemData.food.foodId"></i>
                 </button>
             </form>
             </div>
@@ -72,8 +74,14 @@ export default {
     addItemClicked(e) {
       e.preventDefault();
       const foodId = event.target.getAttribute('data-itemId');
+      const itemName = event.target.getAttribute('data-itemName');
 
-      this.$emit('addClicked', { qty: this.inputQty, foodId: foodId });
+      console.log(itemName);
+      this.$emit('addClicked', {
+        qty: this.inputQty,
+        foodId: foodId,
+        itemName: itemName,
+      });
     },
   },
 };

@@ -7,10 +7,10 @@
     </div>
     <div class="row">
       <div class="col-md-6 offset-md-3">
-        <meal-component mealType="breakfast"></meal-component>
-        <meal-component mealType="lunch"></meal-component>
-        <meal-component mealType="dinner"></meal-component>
-        <meal-component mealType="snacks"></meal-component>
+        <meal-component :mealItems="getBreakfastItems" :mealTotals="getBreakfastTotals" mealType="breakfast"></meal-component>
+        <meal-component :mealItems="getLunchItems" :mealTotals="getLunchTotals" mealType="lunch"></meal-component>
+        <meal-component :mealItems="getDinnerItems" :mealTotals="getDinnerTotals" mealType="dinner"></meal-component>
+        <meal-component :mealItems="getSnackItems" :mealTotals="getSnackTotals" mealType="snacks"></meal-component>
       </div>
       <add-food-modal></add-food-modal>
     </div>
@@ -24,23 +24,36 @@ import DatePaginator from './DatePaginator';
 import AddFoodModal from './AddFoodModal';
 import { mapActions, mapGetters } from 'vuex';
 import axios from 'axios';
+import date from '../store/modules/date';
 export default {
   components: {
     MealComponent,
     DatePaginator,
     AddFoodModal,
   },
+
   methods: {
     ...mapActions(['fetchMealsData', 'setTodayDate']),
   },
 
   computed: {
-    ...mapGetters(['getDate']),
+    ...mapGetters([
+      'getDate',
+      'getBreakfastItems',
+      'getLunchItems',
+      'getDinnerItems',
+      'getSnackItems',
+      'getBreakfastTotals',
+      'getLunchTotals',
+      'getDinnerTotals',
+      'getSnackTotals',
+    ]),
   },
 
   created() {
     this.setTodayDate();
-    this.fetchMealsData();
+    const date = this.$store.dispatch('getDate');
+    this.fetchMealsData(date);
   },
 };
 </script>

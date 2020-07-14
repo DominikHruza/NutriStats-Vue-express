@@ -3,7 +3,7 @@
     <table class="table">
       <thead class="meal-table-head">
         <tr>
-          <th scope="col">{{mealType}}</th>
+          <th scope="col">{{mealType.toUpperCase()}}</th>
           <th scope="col">Carbs</th>
           <th scope="col">Fats</th>
           <th scope="col">Protein</th>
@@ -16,23 +16,19 @@
         </tr>
       </thead>
       <tbody class="meal-table-body">
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
+        <tr v-for="(item, idx) in mealItems" :key="idx">
+          <th scope="row">{{item.itemName}}</th>
+          <td>{{item.CHOCDF}}</td>
+          <td>{{item.FAT}}</td>
+          <td>{{item.PROCNT}}</td>
+          <td>{{item.ENERC_KCAL}}</td>  
         </tr>
         <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">Totals</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
+          <th scope="row">TOTALS</th>
+          <td>{{mealTotals.carbs}}</td>
+          <td>{{mealTotals.fats}}</td>
+          <td>{{mealTotals.protein}}</td>
+          <td>{{mealTotals.totalKcal}}</td>
         </tr>
       </tbody>
     </table>
@@ -42,12 +38,11 @@
 
 <script>
 export default {
-  props: ['mealType'],
+  props: ['mealType', 'mealItems', 'mealTotals'],
   methods: {
     setMealTypeModal(e) {
       e.preventDefault();
       const modalType = e.target.getAttribute('data-mealType');
-      console.log(e.target);
       this.$store.dispatch('setModalType', modalType);
     },
   },

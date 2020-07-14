@@ -15,13 +15,14 @@ export class MealsService {
   ) {}
 
   getMeals(user: User, date: string): Promise<Meal[]> {
+    console.log(date);
     return this.mealRepository.getMeals(user, date);
   }
   async getMealById(id: number, user: User): Promise<Meal> {
     const found = await this.mealRepository.findOne({
       where: { id, userId: user.id },
     });
-    console.log(found);
+
     if (!found) {
       throw new NotFoundException(`Meal with ID "${id}" not found!`);
     }

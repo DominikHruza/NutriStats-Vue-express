@@ -57,6 +57,8 @@
 <script>
 import FoodListItem from './FoodListItem';
 import axios from 'axios';
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   components: {
     foodListItem: FoodListItem,
@@ -64,14 +66,14 @@ export default {
   data() {
     return {
       searchTerm: '',
-      addedItem: null,
       searchResults: [],
       inputQty: null,
-      foodId: null,
     };
   },
 
   methods: {
+    ...mapActions(['addItemToMeal']),
+    ...mapGetters(['getModalType']),
     async searchFood(e) {
       e.preventDefault();
       try {
@@ -81,14 +83,15 @@ export default {
           }&category=generic-foods&app_id=a94e3122&app_key=dbd53702847dea2cfaba020bf85a225d`
         );
         this.searchResults = result.data.hints;
-        console.log(this.searchResults);
       } catch (error) {
         console.log(error);
       }
     },
 
     async addFoodToMeal(event) {
-      const { qty, foodId } = event;
+      const mealType = this.getModalType();
+      const { qty, foodId, itemName } = event;
+
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -109,7 +112,20 @@ export default {
         JSON.stringify(body),
         config
       );
-      console.log(result);
+
+      const { ENERC_KCAL, CHOCDF, FAT, PROCNT } = result.data.totalNutrients;
+      const foodItemData = {
+        mealType,
+        foodItem: {
+          itemName,
+          ENERC_KCAL: ENERC_KCAL.quantity,
+          CHOCDF: CHOCDF.quantity,
+          FAT: FAT.quantity,
+          PROCNT: PROCNT.quantity,
+        },
+      };
+
+      await this.addItemToMeal(foodItemData);
     },
   },
 };

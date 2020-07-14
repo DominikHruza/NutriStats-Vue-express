@@ -28,7 +28,7 @@ export class AuthService {
     const userData = await this.userRepository.validateUserPassword(
       authCredentials,
     );
-    console.log(userData);
+
     if (!userData) {
       throw new UnauthorizedException('Invalid credentials');
     }

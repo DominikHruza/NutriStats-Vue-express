@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from 'moment';
 
 const state = {
   currentDate: null,
@@ -17,26 +17,24 @@ const mutations = {
 const actions = {
   setTodayDate({ commit }) {
     const today = moment();
-    commit("SET_TODAY_DATE", today);
+    commit('SET_TODAY_DATE', today);
   },
 
   incrementSelectedDate({ commit }) {
     const currentDate = state.currentDate;
-    const nextDate = moment(currentDate).add(1, "days");
-    commit("SET_SELECTED_DATE", nextDate);
+    const nextDate = moment(currentDate).add(1, 'days');
+    commit('SET_SELECTED_DATE', nextDate);
   },
 
   decrementSelectedDate({ commit }) {
     const currentDate = state.currentDate;
-    const previousDate = moment(currentDate).subtract(1, "days");
-    commit("SET_SELECTED_DATE", previousDate);
+    const previousDate = moment(currentDate).subtract(1, 'days');
+    commit('SET_SELECTED_DATE', previousDate);
   },
 };
 
 const getters = {
   getDate() {
-    console.log(state);
-    console.log(state.currentDate);
     return state.currentDate;
   },
 };
