@@ -20,16 +20,17 @@ const actions = {
     commit('SET_TODAY_DATE', today);
   },
 
-  incrementSelectedDate({ commit }) {
+  async incrementSelectedDate({ commit }) {
     const currentDate = state.currentDate;
     const nextDate = moment(currentDate).add(1, 'days');
     commit('SET_SELECTED_DATE', nextDate);
   },
 
-  decrementSelectedDate({ commit }) {
+  async decrementSelectedDate({ commit }) {
     const currentDate = state.currentDate;
     const previousDate = moment(currentDate).subtract(1, 'days');
-    commit('SET_SELECTED_DATE', previousDate);
+    await commit('SET_SELECTED_DATE', previousDate);
+    
   },
 };
 

@@ -59,7 +59,6 @@ export default {
   watch: {
     getAlerts(val) {
       setTimeout(() => {
-        console.log(val);
         if (val.length !== 0) this.removeAlert();
       }, 2000);
     },

@@ -90,6 +90,7 @@ export default {
 
     async addFoodToMeal(event) {
       const mealType = this.getModalType();
+     
       const { qty, foodId, itemName } = event;
 
       const config = {
@@ -117,13 +118,16 @@ export default {
       const foodItemData = {
         mealType,
         foodItem: {
-          itemName,
-          ENERC_KCAL: ENERC_KCAL.quantity,
-          CHOCDF: CHOCDF.quantity,
-          FAT: FAT.quantity,
-          PROCNT: PROCNT.quantity,
+          name: itemName,
+          calories: parseFloat(ENERC_KCAL.quantity.toFixed(2)),
+          carbs: parseFloat(CHOCDF.quantity.toFixed(2)),
+          fats: parseFloat(FAT.quantity.toFixed(2)),
+          protein: parseFloat(PROCNT.quantity.toFixed(2)),
+          edamamId: foodId
         },
       };
+      console.log(foodItemData);
+      console.log(result.data.totalNutrients);
 
       await this.addItemToMeal(foodItemData);
     },

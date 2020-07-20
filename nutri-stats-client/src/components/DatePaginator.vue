@@ -3,7 +3,7 @@
     <ul class="pagination">
       <li class="page-item">
         <a
-          @click="decrementSelectedDate"
+          @click="handleDecrement"
           class="page-link"
           href="#"
           aria-label="Previous"
@@ -17,7 +17,7 @@
       </li>
       <li class="page-item">
         <a
-          @click="incrementSelectedDate"
+          @click="handleIncrement"
           class="page-link"
           href="#"
           aria-label="Next"
@@ -31,12 +31,22 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   props: ["date"],
 
   methods: {
-    ...mapActions(["incrementSelectedDate", "decrementSelectedDate"]),
+    ...mapActions(["incrementSelectedDate", "decrementSelectedDate", "fetchMealsData"]),
+
+    async handleIncrement(){
+        await this.incrementSelectedDate();
+        this.fetchMealsData();
+    },
+
+    async handleDecrement(){
+        await this.decrementSelectedDate();
+        this.fetchMealsData();
+    }
   },
 };
 </script>

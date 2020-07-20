@@ -7,7 +7,12 @@
     </div>
     <div class="row">
       <div class="col-md-6 offset-md-3">
-        <meal-component :mealItems="getBreakfastItems" :mealTotals="getBreakfastTotals" mealType="breakfast"></meal-component>
+        <meal-component 
+        :mealItems="getBreakfastItems" 
+        :mealTotals="getBreakfastTotals"
+        mealType="breakfast"
+
+        ></meal-component>
         <meal-component :mealItems="getLunchItems" :mealTotals="getLunchTotals" mealType="lunch"></meal-component>
         <meal-component :mealItems="getDinnerItems" :mealTotals="getDinnerTotals" mealType="dinner"></meal-component>
         <meal-component :mealItems="getSnackItems" :mealTotals="getSnackTotals" mealType="snacks"></meal-component>

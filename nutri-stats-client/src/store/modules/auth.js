@@ -1,6 +1,7 @@
 import axiosInstance from "../../axios-config";
 import moment from "moment";
 import router from "../../main";
+import axios from 'axios'
 
 const state = {
   token: "",
@@ -35,7 +36,8 @@ const actions = {
   async login({ commit }, authData) {
     try {
       //api call
-      const response = await axiosInstance.post("/auth/sign-in", authData);
+      const response = await axios.post("/api/auth/log-in", authData);
+      console.log(response)
       const { data } = response;
 
       //set token and exp date to local storage
