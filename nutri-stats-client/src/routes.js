@@ -25,13 +25,7 @@ export const routes = [
     meta: { requiresAuth: true },
   },
 
-  {
-    path: "/add-meal",
-    name: "AddMeal",
-    component: () =>
-      import(/*webpackChunkName: "add-meal"*/ "./components/AddMeal.vue"),
-    meta: { requiresAuth: true },
-  },
+ 
   {
     path: "/saved-meals",
     name: "SavedMeals",

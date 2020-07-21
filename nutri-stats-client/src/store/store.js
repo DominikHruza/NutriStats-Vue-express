@@ -16,6 +16,7 @@ export const store = new Vuex.Store({
   state: {
     alerts: [],
     modalOpened: null,
+    loading: false
   },
 
   mutations: {
@@ -33,6 +34,9 @@ export const store = new Vuex.Store({
     SET_MODAL_TYPE(state, payload) {
       state.modalOpened = payload;
     },
+    SET_LOADING(state, payload){
+        state.loading = payload
+    }
   },
 
   actions: {
@@ -43,6 +47,10 @@ export const store = new Vuex.Store({
     setModalType({ commit }, mealType) {
       commit('SET_MODAL_TYPE', mealType);
     },
+
+    setLoading({commit}, loading){
+        commit('SET_LOADING', loading);
+    }
   },
 
   getters: {
@@ -53,6 +61,10 @@ export const store = new Vuex.Store({
     getModalType: (state) => {
       return state.modalOpened;
     },
+
+    isLoading: (state) => {
+       return state.loading 
+    }
   },
 
   modules: {

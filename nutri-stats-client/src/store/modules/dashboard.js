@@ -58,7 +58,6 @@ const mutations = {
   },
 
   CLEAR_MEAL_DATA(){
-    
     state.meals.breakfast = {mealId: null, items: [], nutrientTotals: {}}
     state.meals.lunch = {mealId: null, items: [], nutrientTotals: {}}
     state.meals.dinner = {mealId: null, items: [], nutrientTotals: {}}
@@ -147,7 +146,10 @@ const actions = {
     console.log(response)
     response.data.meals.forEach((meal) => {
       commit('SET_MEAL_DATA', meal);
+      const updatedTotals = sumMealNutrients(state.meals[meal.mealType].items);
+      commit('UPDATE_TOTALS', {mealType: meal.mealType, ...updatedTotals})    
     });
+
   },
 
   async addItemToMeal({ commit }, itemData) {
@@ -175,7 +177,6 @@ const actions = {
     console.log(newItem)
     await commit('ADD_MEAL_ITEM', {mealType:itemData.mealType, ...newItem.data} );
     const updatedTotals = sumMealNutrients(state.meals[itemData.mealType].items);
-    console.log(updatedTotals)
     commit('UPDATE_TOTALS', {mealType: itemData.mealType, ...updatedTotals})    
   },
 

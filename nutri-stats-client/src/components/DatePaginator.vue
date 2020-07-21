@@ -39,13 +39,17 @@ export default {
     ...mapActions(["incrementSelectedDate", "decrementSelectedDate", "fetchMealsData"]),
 
     async handleIncrement(){
+        this.$store.dispatch('setLoading', true)
         await this.incrementSelectedDate();
-        this.fetchMealsData();
+        await this.fetchMealsData();
+        this.$store.dispatch('setLoading', false)
     },
 
     async handleDecrement(){
+        this.$store.dispatch('setLoading', true)
         await this.decrementSelectedDate();
-        this.fetchMealsData();
+        await this.fetchMealsData();
+        this.$store.dispatch('setLoading', false)
     }
   },
 };

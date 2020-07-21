@@ -35,7 +35,8 @@
             </nav>
           </div>
           <hr />
-          <ul class="list-group">
+          <loading-indicator v-if="modalLoading"></loading-indicator> 
+          <ul v-else class="list-group">
             <food-list-item 
                 v-for="(result, idx) in searchResults" :key="idx" 
                 :foodItemData="result" 
@@ -55,6 +56,7 @@
 </template>
 
 <script>
+import LoadingIndicator from './LoadingIndicator';
 import FoodListItem from './FoodListItem';
 import axios from 'axios';
 import { mapActions, mapGetters } from 'vuex';
@@ -62,27 +64,32 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
   components: {
     foodListItem: FoodListItem,
+    LoadingIndicator
   },
   data() {
     return {
       searchTerm: '',
       searchResults: [],
       inputQty: null,
+      modalLoading: false
     };
   },
 
   methods: {
-    ...mapActions(['addItemToMeal']),
+    ...mapActions(['addItemToMeal', 'setLoading']),
     ...mapGetters(['getModalType']),
     async searchFood(e) {
       e.preventDefault();
+      this.modalLoading = true
       try {
+        
         const result = await axios.get(
           `https://api.edamam.com/api/food-database/parser?ingr=${
             this.searchTerm
           }&category=generic-foods&app_id=a94e3122&app_key=dbd53702847dea2cfaba020bf85a225d`
         );
         this.searchResults = result.data.hints;
+       this.modalLoading = false
       } catch (error) {
         console.log(error);
       }
@@ -108,6 +115,8 @@ export default {
           },
         ],
       };
+     
+
       const result = await axios.post(
         `https://api.edamam.com/api/food-database/v2/nutrients?app_id=a94e3122&app_key=dbd53702847dea2cfaba020bf85a225d`,
         JSON.stringify(body),
@@ -126,12 +135,15 @@ export default {
           edamamId: foodId
         },
       };
-      console.log(foodItemData);
-      console.log(result.data.totalNutrients);
-
+      this.$store.dispatch('setLoading', true)
       await this.addItemToMeal(foodItemData);
+      this.$store.dispatch('setLoading', false)
     },
+
   },
+computed: {
+    ...mapGetters(['isLoading'])
+},
 };
 </script>
 

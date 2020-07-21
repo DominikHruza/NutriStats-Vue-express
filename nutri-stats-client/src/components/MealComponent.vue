@@ -15,7 +15,7 @@
           </th>
         </tr>
       </thead>
-      <tbody class="meal-table-body">
+      <tbody class="meal-table-body"> 
         <tr v-for="(item, idx) in mealItems" :key="idx">
           <th scope="row">{{item.name}}</th>
           <td>{{item.carbs}}</td>
@@ -42,9 +42,12 @@
 
 
 <script>
+
 import {mapActions} from 'vuex';
 export default {
   props: ['mealType', 'mealItems', 'mealTotals'],
+ 
+
   methods: {
 
     ...mapActions(['deleteMealItem']),
