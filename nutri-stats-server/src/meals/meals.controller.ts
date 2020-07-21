@@ -19,6 +19,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { Meal } from './meal.entity';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
+import { AddMealItemDto } from './dto/add-meal-item.dto';
+import { MealItem } from './meal-item.entity';
 
 @Controller('meals')
 @UseGuards(AuthGuard())
@@ -47,6 +49,11 @@ export class MealsController {
     return this.mealsService.createMeal(createMealDto, user);
   }
 
+  @Post('/add-item')
+  @UsePipes(ValidationPipe)
+  addItemToMeal(@Body() addMealItemDto: AddMealItemDto): Promise<MealItem> {
+    return this.mealsService.addMealItem(addMealItemDto);
+  }
   //   @Delete('/:id')
   //   deleteMeal(@Param('id') id: string): void {
   //     this.mealsService.deleteMeal(id);

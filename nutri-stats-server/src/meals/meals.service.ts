@@ -6,12 +6,17 @@ import { MealRepository } from './meal.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/user.entity';
 import { UpdateMealDto } from './dto/update-meal.dto';
+import { AddMealItemDto } from './dto/add-meal-item.dto';
+import { MealItemRepository } from './meal-item.repository';
+import { MealItem } from './meal-item.entity';
 
 @Injectable()
 export class MealsService {
   constructor(
     @InjectRepository(MealRepository)
     private mealRepository: MealRepository,
+    @InjectRepository(MealItemRepository)
+    private mealItemRepository: MealItemRepository,
   ) {}
 
   getMeals(user: User, date: string): Promise<Meal[]> {
@@ -31,6 +36,10 @@ export class MealsService {
 
   createMeal(createMealDto: CreateMealDto, user: User): Promise<Meal> {
     return this.mealRepository.createMeal(createMealDto, user);
+  }
+
+  addMealItem(addMealItemDto: AddMealItemDto): Promise<MealItem> {
+    return this.mealItemRepository.addItemToMeal(addMealItemDto);
   }
   //   deleteMeal(id: string): void {
   //     const found = this.getMealById(id);

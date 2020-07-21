@@ -4,9 +4,13 @@ import { MealsService } from './meals.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MealRepository } from './meal.repository';
 import { AuthModule } from 'src/auth/auth.module';
+import { MealItemRepository } from './meal-item.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([MealRepository]), AuthModule],
+  imports: [
+    TypeOrmModule.forFeature([MealRepository, MealItemRepository]),
+    AuthModule,
+  ],
   controllers: [MealsController],
   providers: [MealsService],
 })

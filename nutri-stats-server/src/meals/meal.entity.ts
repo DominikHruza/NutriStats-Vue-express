@@ -5,9 +5,11 @@ import {
   Column,
   ManyToOne,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { MealStatus } from './meal-status.enum';
 import { User } from 'src/auth/user.entity';
+import { MealItem } from './meal-item.entity';
 
 @Entity()
 export class Meal extends BaseEntity {
@@ -41,7 +43,6 @@ export class Meal extends BaseEntity {
     { eager: false },
   )
   user: User;
-
   @Column()
   userId: number;
 }
