@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://dominik:15061992@cluster0.ywy1t.mongodb.net/nutri_stats?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrettoken"
+}
