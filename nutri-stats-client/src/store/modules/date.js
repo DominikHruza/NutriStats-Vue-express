@@ -1,44 +1,44 @@
-import moment from 'moment';
+import moment from 'moment'
 
 const state = {
   currentDate: null,
-};
+}
 
 const mutations = {
   SET_TODAY_DATE(state, dateToday) {
-    state.currentDate = dateToday;
+    state.currentDate = dateToday
   },
 
   SET_SELECTED_DATE(state, date) {
-    state.currentDate = date;
+    state.currentDate = date
   },
-};
+}
 
 const actions = {
   setTodayDate({ commit }) {
-    const today = moment();
-    commit('SET_TODAY_DATE', today);
+    const today = moment()
+    commit('SET_TODAY_DATE', today)
   },
 
   async incrementSelectedDate({ commit }) {
-    const currentDate = state.currentDate;
-    const nextDate = moment(currentDate).add(1, 'days');
-    commit('SET_SELECTED_DATE', nextDate);
+    const currentDate = state.currentDate
+    const nextDate = moment(currentDate).add(1, 'days')
+    commit('SET_SELECTED_DATE', nextDate)
   },
 
   async decrementSelectedDate({ commit }) {
-    const currentDate = state.currentDate;
-    const previousDate = moment(currentDate).subtract(1, 'days');
-    await commit('SET_SELECTED_DATE', previousDate);
-    
+    const currentDate = state.currentDate
+
+    const previousDate = moment(currentDate).subtract(1, 'days')
+    await commit('SET_SELECTED_DATE', previousDate)
   },
-};
+}
 
 const getters = {
   getDate() {
-    return state.currentDate;
+    return state.currentDate
   },
-};
+}
 
 // const formatdateString = ()=>{
 //   const dd = String(today.getDate()).padStart(2, '0');
@@ -52,4 +52,4 @@ export default {
   mutations,
   actions,
   getters,
-};
+}

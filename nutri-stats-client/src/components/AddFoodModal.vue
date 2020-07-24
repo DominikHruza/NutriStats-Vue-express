@@ -36,16 +36,22 @@
           </div>
           <hr />
           <loading-indicator v-if="modalLoading"></loading-indicator> 
-          <ul v-else class="list-group">
+          <ul v-else-if="!modalLoading && searchResults.length > 0" class="list-group">
             <food-list-item 
                 v-for="(result, idx) in searchResults" :key="idx" 
                 :foodItemData="result" 
                 @addClicked="addFoodToMeal">
             </food-list-item>
           </ul>
+        <alert-box
+            v-else
+            v-for="(alert, index) in getAlerts"
+            :alertMsg="alert"
+            color="alert-danger"
+            :key="index"
+        ></alert-box>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Add</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             Close
           </button>
@@ -56,6 +62,7 @@
 </template>
 
 <script>
+import AlertBox from './AlertBox';
 import LoadingIndicator from './LoadingIndicator';
 import FoodListItem from './FoodListItem';
 import axios from 'axios';
@@ -64,40 +71,42 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
   components: {
     foodListItem: FoodListItem,
-    LoadingIndicator
+    LoadingIndicator,
+    AlertBox,
   },
   data() {
     return {
       searchTerm: '',
       searchResults: [],
-      inputQty: null,
-      modalLoading: false
+      modalLoading: false,
     };
   },
 
   methods: {
-    ...mapActions(['addItemToMeal', 'setLoading']),
-    ...mapGetters(['getModalType']),
+    ...mapActions(['addItemToMeal', 'setLoading', 'removeAlert']),
+    ...mapGetters(['getModalType', 'getAlerts']),
+
     async searchFood(e) {
       e.preventDefault();
-      this.modalLoading = true
+      this.modalLoading = true;
       try {
-        
         const result = await axios.get(
           `https://api.edamam.com/api/food-database/parser?ingr=${
             this.searchTerm
           }&category=generic-foods&app_id=a94e3122&app_key=dbd53702847dea2cfaba020bf85a225d`
         );
         this.searchResults = result.data.hints;
-       this.modalLoading = false
+        this.modalLoading = false;
       } catch (error) {
-        console.log(error);
+        this.modalLoading = false;
+        (this.searchResults = []),
+          this.$store.commit('SET_ALERTS', 'No items match your search');
       }
     },
 
     async addFoodToMeal(event) {
       const mealType = this.getModalType();
-     
+
       const { qty, foodId, itemName } = event;
 
       const config = {
@@ -115,7 +124,6 @@ export default {
           },
         ],
       };
-     
 
       const result = await axios.post(
         `https://api.edamam.com/api/food-database/v2/nutrients?app_id=a94e3122&app_key=dbd53702847dea2cfaba020bf85a225d`,
@@ -132,18 +140,25 @@ export default {
           carbs: parseFloat(CHOCDF.quantity.toFixed(2)),
           fats: parseFloat(FAT.quantity.toFixed(2)),
           protein: parseFloat(PROCNT.quantity.toFixed(2)),
-          edamamId: foodId
+          edamamId: foodId,
         },
       };
-      this.$store.dispatch('setLoading', true)
+      this.$store.dispatch('setLoading', true);
       await this.addItemToMeal(foodItemData);
-      this.$store.dispatch('setLoading', false)
+      this.$store.dispatch('setLoading', false);
     },
-
   },
-computed: {
-    ...mapGetters(['isLoading'])
-},
+  computed: {
+    ...mapGetters(['isLoading', 'getAlerts']),
+  },
+
+  watch: {
+    getAlerts(val) {
+      setTimeout(() => {
+        if (val.length !== 0) this.removeAlert();
+      }, 2000);
+    },
+  },
 };
 </script>
 

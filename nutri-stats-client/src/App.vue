@@ -6,8 +6,10 @@
 </template>
 
 <script>
-import { store } from "./store/store";
-import Navbar from "./components/Navbar";
+import { store } from './store/store';
+import Navbar from './components/Navbar';
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   components: {
     appNavbar: Navbar,

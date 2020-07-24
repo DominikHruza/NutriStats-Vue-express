@@ -1,4 +1,6 @@
 <template>
+     
+         
     <div>
         <li
             class="list-group-item"
@@ -28,19 +30,19 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{{ foodItemData.food.nutrients.CHOCDF }}</td>
-                    <td>{{ foodItemData.food.nutrients.PROCNT }}</td>
-                    <td>{{ foodItemData.food.nutrients.FAT }}</td>
-                    <td>{{ foodItemData.food.nutrients.ENERC_KCAL }}</td>
+                    <td>{{ parseFloat((foodItemData.food.nutrients.CHOCDF).toFixed(2)) }}</td>
+                    <td>{{ parseFloat((foodItemData.food.nutrients.PROCNT).toFixed(2)) }}</td>
+                    <td>{{ parseFloat((foodItemData.food.nutrients.FAT).toFixed(2)) }}</td>
+                    <td>{{ parseFloat((foodItemData.food.nutrients.ENERC_KCAL).toFixed(2)) }}</td>
                 </tr>
                 </tbody>
             </table>
-
+        
             <form class="form-inline" >
                 <input
                 class="form-control mr-sm-2"
                 type="search"
-                placeholder="Portion Size(grams)"
+                placeholder="Portion Size (grams)"
                 aria-label="Search"
                 v-model="inputQty"
                 />
@@ -48,14 +50,13 @@
                 @click="addItemClicked"
                 class="btn add-btn m-2"
                 :data-itemName = "foodItemData.food.label"
-                data-toggle="modal"
-                data-target="#exampleModal"
                 :data-itemId = "foodItemData.food.foodId"
                 >
                 <i class="fa fa-plus" aria-hidden="true" 
                 :data-itemName = "foodItemData.food.label" 
                 :data-itemId = "foodItemData.food.foodId"></i>
                 </button>
+                 
             </form>
             </div>
         </li>
@@ -63,6 +64,9 @@
 </template>
 
 <script>
+import AlertBox from './AlertBox';
+import { numeric, required } from 'vuelidate/lib/validators';
+import { mapActions, mapGetters } from 'vuex';
 export default {
   props: ['foodItemData', 'mealType'],
   data() {
@@ -71,18 +75,45 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['removeAlert']),
     addItemClicked(e) {
       e.preventDefault();
       const foodId = event.target.getAttribute('data-itemId');
       const itemName = event.target.getAttribute('data-itemName');
 
-      console.log(itemName);
+      if (this.$v.$invalid) {
+        console.log('this.$v.$invalid');
+        this.$store.commit('SET_ALERTS', 'Invalid portion size!');
+        return;
+      }
       this.$emit('addClicked', {
         qty: this.inputQty,
         foodId: foodId,
         itemName: itemName,
       });
     },
+  },
+
+  computed: {
+    ...mapGetters(['getAlerts']),
+  },
+  validations: {
+    inputQty: {
+      numeric,
+      required,
+    },
+  },
+
+  watch: {
+    getAlerts(val) {
+      setTimeout(() => {
+        if (val.length !== 0) this.removeAlert();
+      }, 2000);
+    },
+  },
+
+  components: {
+    AlertBox,
   },
 };
 </script>

@@ -56,13 +56,6 @@ export default {
     },
   },
 
-  watch: {
-    getAlerts(val) {
-      setTimeout(() => {
-        if (val.length !== 0) this.removeAlert();
-      }, 2000);
-    },
-  },
   components: {
     appAlertBox: AlertBox,
   },
