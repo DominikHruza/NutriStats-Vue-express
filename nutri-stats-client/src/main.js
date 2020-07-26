@@ -21,7 +21,6 @@ router.beforeEach(async (to, from, next) => {
     const expiresIn = localStorage.getItem("expiresIn");
     const now = new Date();
 
-    console.log(router.currentRoute);
     if (!token) {
       try {
         next({

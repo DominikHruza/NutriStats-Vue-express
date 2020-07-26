@@ -1,7 +1,7 @@
 import axiosInstance from "../../axios-config";
 import moment from "moment";
 import router from "../../main";
-import axios from 'axios'
+import axios from "axios";
 
 const state = {
   token: "",
@@ -37,7 +37,7 @@ const actions = {
     try {
       //api call
       const response = await axios.post("/api/auth/log-in", authData);
-      console.log(response)
+
       const { data } = response;
 
       //set token and exp date to local storage
@@ -53,8 +53,7 @@ const actions = {
       commit("SET_TOKEN", data.token);
       commit("SET_USER", data);
     } catch (error) {
-      console.log(error);
-      const errorMsgs = error.response.data.message;
+      const errorMsgs = error.response.data.errors;
       commit("SET_ALERTS", errorMsgs);
     }
   },
@@ -68,7 +67,6 @@ const actions = {
   },
 
   checkAuth({ commit }) {
-    console.log(router);
     const token = localStorage.getItem("token");
     const expiresIn = localStorage.getItem("expiresIn");
     const userId = localStorage.getItem("userId");

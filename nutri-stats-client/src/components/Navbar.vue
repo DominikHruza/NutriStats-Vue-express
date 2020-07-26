@@ -19,11 +19,6 @@
             >Dashboard <span class="sr-only">(current)</span></router-link
           >
         </li>
-        <li v-if="isAuthenticated" class="nav-item">
-          <router-link :to="{ name: 'SavedMeals' }" class="nav-link" href="#"
-            >Saved Meals</router-link
-          >
-        </li>
       </ul>
     </div>
     <div class="navbar-collapse collapse order-2 order-md-2">
@@ -43,7 +38,6 @@ import { mapGetters } from "vuex";
 export default {
   methods: {
     handleLogout() {
-      console.log(this.$router);
       this.$store.dispatch("logout");
     },
   },

@@ -35,21 +35,25 @@
             </nav>
           </div>
           <hr />
-          <loading-indicator v-if="modalLoading"></loading-indicator> 
-          <ul v-else-if="!modalLoading && searchResults.length > 0" class="list-group">
-            <food-list-item 
-                v-for="(result, idx) in searchResults" :key="idx" 
-                :foodItemData="result" 
-                @addClicked="addFoodToMeal">
-            </food-list-item>
+          <loading-indicator v-if="modalLoading"></loading-indicator>
+          <ul
+            v-else-if="!modalLoading && searchResults.length > 0"
+            class="list-group"
+          >
+            <food-list-item
+              v-for="(result, idx) in searchResults"
+              :key="idx"
+              :foodItemData="result"
+              @addClicked="addFoodToMeal"
+            ></food-list-item>
           </ul>
-        <alert-box
+          <alert-box
             v-else
             v-for="(alert, index) in getAlerts"
             :alertMsg="alert"
             color="alert-danger"
             :key="index"
-        ></alert-box>
+          ></alert-box>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -62,11 +66,11 @@
 </template>
 
 <script>
-import AlertBox from './AlertBox';
-import LoadingIndicator from './LoadingIndicator';
-import FoodListItem from './FoodListItem';
-import axios from 'axios';
-import { mapActions, mapGetters } from 'vuex';
+import AlertBox from "./AlertBox";
+import LoadingIndicator from "./LoadingIndicator";
+import FoodListItem from "./FoodListItem";
+import axios from "axios";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -74,33 +78,32 @@ export default {
     LoadingIndicator,
     AlertBox,
   },
+
   data() {
     return {
-      searchTerm: '',
+      searchTerm: "",
       searchResults: [],
       modalLoading: false,
     };
   },
 
   methods: {
-    ...mapActions(['addItemToMeal', 'setLoading', 'removeAlert']),
-    ...mapGetters(['getModalType', 'getAlerts']),
+    ...mapActions(["addItemToMeal", "setLoading", "removeAlert"]),
+    ...mapGetters(["getModalType"]),
 
     async searchFood(e) {
       e.preventDefault();
       this.modalLoading = true;
       try {
         const result = await axios.get(
-          `https://api.edamam.com/api/food-database/parser?ingr=${
-            this.searchTerm
-          }&category=generic-foods&app_id=a94e3122&app_key=dbd53702847dea2cfaba020bf85a225d`
+          `https://api.edamam.com/api/food-database/parser?ingr=${this.searchTerm}&category=generic-foods&app_id=a94e3122&app_key=dbd53702847dea2cfaba020bf85a225d`
         );
         this.searchResults = result.data.hints;
         this.modalLoading = false;
       } catch (error) {
         this.modalLoading = false;
         (this.searchResults = []),
-          this.$store.commit('SET_ALERTS', 'No items match your search');
+          this.$store.commit("SET_ALERTS", "No items match your search");
       }
     },
 
@@ -111,7 +114,7 @@ export default {
 
       const config = {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       };
       const body = {
@@ -119,7 +122,7 @@ export default {
           {
             quantity: parseInt(qty),
             measureURI:
-              'http://www.edamam.com/ontologies/edamam.owl#Measure_gram',
+              "http://www.edamam.com/ontologies/edamam.owl#Measure_gram",
             foodId: `${foodId}`,
           },
         ],
@@ -143,24 +146,24 @@ export default {
           edamamId: foodId,
         },
       };
-      this.$store.dispatch('setLoading', true);
+      this.$store.dispatch("setLoading", true);
       await this.addItemToMeal(foodItemData);
-      this.$store.dispatch('setLoading', false);
+      this.$store.dispatch("setLoading", false);
     },
   },
+
   computed: {
-    ...mapGetters(['isLoading', 'getAlerts']),
+    ...mapGetters(["getAlerts"]),
   },
 
   watch: {
     getAlerts(val) {
       setTimeout(() => {
         if (val.length !== 0) this.removeAlert();
-      }, 2000);
+      }, 3000);
     },
   },
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

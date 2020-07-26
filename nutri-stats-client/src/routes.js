@@ -24,15 +24,4 @@ export const routes = [
       ),
     meta: { requiresAuth: true },
   },
-
- 
-  {
-    path: "/saved-meals",
-    name: "SavedMeals",
-    component: () =>
-      import(
-        /*webpackChunkName: "saved-meals"*/ "./components/SavedMealsPage.vue"
-      ),
-    meta: { requiresAuth: true },
-  },
 ];

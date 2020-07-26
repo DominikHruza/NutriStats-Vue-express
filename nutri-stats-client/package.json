@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "moment": "^2.27.0",
     "momentjs": "^2.0.0",
+    "sass-loader": "^9.0.2",
     "vue": "^2.6.11",
     "vue-router": "^3.3.4",
     "vuelidate": "^0.7.5",
@@ -48,6 +49,4 @@
     "last 2 versions",
     "not dead"
   ]
- 
-
 }

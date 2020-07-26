@@ -2,7 +2,7 @@
   <div class="login-page">
     <app-alert-box
       v-for="(alert, index) in getAlerts"
-      :alertMsg="alert"
+      :alertMsg="alert.msg"
       color="alert-danger"
       :key="index"
     ></app-alert-box>
@@ -13,7 +13,7 @@
         <button @click="onSubmit">login</button>
         <p class="message">
           Not registered?
-          <router-link :to="{name: 'SignUp'}">Create an account</router-link>
+          <router-link :to="{ name: 'SignUp' }">Create an account</router-link>
         </p>
       </form>
     </div>
@@ -21,19 +21,19 @@
 </template>
 
 <script>
-import AlertBox from './AlertBox';
-import { mapGetters, mapActions } from 'vuex';
+import AlertBox from "./AlertBox";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
     return {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
     };
   },
 
   methods: {
-    ...mapActions(['removeAlert']),
+    ...mapActions(["removeAlert"]),
     async onSubmit(e) {
       e.preventDefault();
 
@@ -42,15 +42,15 @@ export default {
         password: this.password,
       };
 
-      await this.$store.dispatch('login', formData);
+      await this.$store.dispatch("login", formData);
       if (this.isAuthenticated) {
-        this.$router.push('/dashboard');
+        this.$router.push("/dashboard");
       }
     },
   },
 
   computed: {
-    ...mapGetters(['getAlerts']),
+    ...mapGetters(["getAlerts"]),
     isAuthenticated() {
       return this.$store.getters.isAuthenticated;
     },
@@ -59,9 +59,17 @@ export default {
   components: {
     appAlertBox: AlertBox,
   },
+
+  watch: {
+    getAlerts(val) {
+      setTimeout(() => {
+        if (val.length !== 0) this.removeAlert();
+      }, 2000);
+    },
+  },
 };
 </script>
 
 <style scoped>
-@import '../shared-styles.scss';
+@import "../shared-styles.scss";
 </style>
