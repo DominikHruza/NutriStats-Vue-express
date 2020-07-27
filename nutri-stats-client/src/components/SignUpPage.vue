@@ -1,5 +1,11 @@
 <template>
   <div class="login-page">
+    <app-alert-box
+      v-for="(alert, index) in getAlerts"
+      :alertMsg="alert.msg"
+      color="alert-danger"
+      :key="index"
+    ></app-alert-box>
     <div class="form">
       <form class="login-form">
         <h2>Create an account</h2>
@@ -10,9 +16,10 @@
           @blur="$v.username.$touch()"
           :class="{ invalid: $v.username.$error }"
         />
-        <p v-if="$v.username.$error" class="small">
-          Username must be between 4 and 20 charachters long
-        </p>
+        <p
+          v-if="$v.username.$error"
+          class="small"
+        >Username must be between 4 and 20 charachters long</p>
         <input
           type="password"
           placeholder="password"
@@ -20,9 +27,7 @@
           @blur="$v.password.$touch()"
           :class="{ invalid: $v.password.$error }"
         />
-        <p v-if="$v.password.$error" class="small">
-          Password must be minimum of 8 charachters long
-        </p>
+        <p v-if="$v.password.$error" class="small">Password must be minimum of 8 charachters long</p>
         <input
           type="password"
           placeholder="confirm password"
@@ -33,7 +38,8 @@
 
         <button @click="onSubmit">Sign Up</button>
         <p class="message">
-          Already have an account? <router-link :to="{name: 'Login'}">Login</router-link>
+          Already have an account?
+          <router-link :to="{name: 'Login'}">Login</router-link>
         </p>
       </form>
     </div>
@@ -41,40 +47,45 @@
 </template>
 
 <script>
-
-import axiosInstance from '../axios-config';
-import {mapActions} from 'vuex'
+import AlertBox from "./AlertBox";
+import axiosInstance from "../axios-config";
+import { mapActions, mapGetters } from "vuex";
 import {
   required,
   maxLength,
   minLength,
   sameAs,
-} from 'vuelidate/lib/validators';
+} from "vuelidate/lib/validators";
 
 //import axios from 'axios';
 export default {
   data() {
     return {
-      username: '',
-      password: '',
-      confirmedPassword: '',
+      username: "",
+      password: "",
+      confirmedPassword: "",
     };
   },
 
   methods: {
-   ...mapActions(['signUp']),
+    ...mapActions(["signUp", "removeAlert"]),
     async onSubmit(e) {
       e.preventDefault();
 
       const formData = {
         username: this.username,
         password: this.password,
+        confirmedPassword: this.confirmedPassword,
       };
 
-      this.$store.dispatch('signUp', formData);
-      this.$router.push({name: 'Dashboard'});
-      
+      await this.$store.dispatch("signUp", formData);
+
+      this.$router.push({ name: "Login" });
     },
+  },
+
+  components: {
+    appAlertBox: AlertBox,
   },
 
   validations: {
@@ -88,14 +99,29 @@ export default {
       minLen: minLength(8),
     },
     passwordConfirmed: {
-      sameAs: sameAs('password'),
+      sameAs: sameAs("password"),
+    },
+  },
+
+  computed: {
+    ...mapGetters(["getAlerts"]),
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
+  },
+
+  watch: {
+    getAlerts(val) {
+      setTimeout(() => {
+        if (val.length !== 0) this.removeAlert();
+      }, 2000);
     },
   },
 };
 </script>
 
 <style scoped>
-@import '../shared-styles.scss';
+@import "../shared-styles.scss";
 .invalid {
   color: red;
   background-color: #ffc9aa;

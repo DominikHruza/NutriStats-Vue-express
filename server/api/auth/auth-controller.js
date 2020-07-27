@@ -21,12 +21,17 @@ exports.validateLogInBody = [
 ];
 
 exports.userSignUp = async (req, res) => {
+  const { username, password, confirmedPassword } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { username, password } = req.body;
+  if (password !== confirmedPassword) {
+    res.status(400).json({ errors: [{ msg: "Passwords don't match" }] });
+    return;
+  }
+
   try {
     //check if user exists
     let user = await User.findOne({ username });

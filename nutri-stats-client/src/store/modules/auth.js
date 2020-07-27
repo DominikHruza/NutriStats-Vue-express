@@ -30,7 +30,13 @@ const mutations = {
 
 const actions = {
   async signUp({ commit }, authData) {
-    const response = await axiosInstance.post("/auth/sign-up", authData);
+    try {
+      const response = await axiosInstance.post("api/auth/sign-up", authData);
+      const { data } = response;
+    } catch (error) {
+      const errorMsgs = error.response.data.errors;
+      commit("SET_ALERTS", errorMsgs);
+    }
   },
 
   async login({ commit }, authData) {
